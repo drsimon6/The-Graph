@@ -3,7 +3,6 @@
 select *  
 
 from ethereum.core.dim_contracts
-where
-or ADDRESS = '0xc944e90c64b2c07662a292be6244bdf05cda44a7'
+where ADDRESS = '0xc944e90c64b2c07662a292be6244bdf05cda44a7'
 or NAME = 'Graph Token'
 and SYMBOL = 'GRT'
