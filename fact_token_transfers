@@ -1,0 +1,31 @@
+SELECT 
+    BLOCK_NUMBER,
+    BLOCK_TIMESTAMP,
+    TX_HASH,
+    EVENT_INDEX,
+    ORIGIN_FUNCTION_SIGNATURE,
+    ORIGIN_FROM_ADDRESS,
+    ORIGIN_TO_ADDRESS,
+    CONTRACT_ADDRESS,
+    FROM_ADDRESS,
+    TO_ADDRESS,
+    (RAW_AMOUNT / POW(10, DECIMALS)) * PRICE AS AMOUNT_IN_USD,
+    (RAW_AMOUNT_PRECISE / POW(10, DECIMALS)) * PRICE AS AMOUNT_PRECISE_IN_USD,
+    _LOG_ID,
+    FACT_TOKEN_TRANSFERS_ID
+FROM 
+    ethereum.core.fact_token_transfers
+LEFT JOIN
+   ethereum.price.ez_prices_hourly AS TPP 
+ON
+    ethereum.core.fact_token_transfers.CONTRACT_ADDRESS = TPP.TOKEN_ADDRESS
+WHERE 
+    ethereum.core.fact_token_transfers.CONTRACT_ADDRESS = '0xc944e90c64b2c07662a292be6244bdf05cda44a7'
+--or ADDRESS = '0xc944e90c64b2c07662a292be6244bdf05cda44a7'
+--or NAME = 'Graph Token'
+--and SYMBOL = 'GRT'
+
+ORDER BY 
+    BLOCK_TIMESTAMP DESC
+LIMIT 
+    1000
